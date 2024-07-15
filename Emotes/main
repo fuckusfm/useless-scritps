@@ -77,38 +77,38 @@ function closegui()
 	EMOTEPARENT.Visible = false
 end
 
-local isplayingemote = false
-		local function createEmoteButton(emote)
-			local button = Instance.new("TextButton")
-			button.Text = emote.name
-			button.Font = Enum.Font.Arial
-			button.BackgroundTransparency = 0.5
-			button.TextColor3 = Color3.new(1, 1, 1)
-			button.TextScaled = true
-			button.ZIndex = 2
-			button.Parent = SCROLLINGFRAME
-			button.MouseButton1Click:Connect(function()	
-				if animation then
-					animation:Stop()
-				end
-				for _, v in ipairs(humanoid:GetPlayingAnimationTracks()) do
-					v:Stop()
-				end
-				local emotea = Instance.new("Animation")
-				emotea.AnimationId = "rbxassetid://"..emote.id
-				animation = humanoid:LoadAnimation(emotea)
-				animation:Play()
-				isplayingemote = true
-				closegui()
-			end)
-		end
-
 BACKUP = Instance.new("Folder")
-EMOTEPARENT = game:GetService("CoreGui").RobloxGui.EmotesMenu.Main.EmotesWheel
 local humanoid = game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid")
+EMOTEPARENT = game:GetService("CoreGui").RobloxGui:WaitForChild("EmotesMenu").Main.EmotesWheel
+local isplayingemote = false
+function createEmoteButton(emote)
+	local button = Instance.new("TextButton")
+	button.Text = emote.name
+	button.Font = Enum.Font.Arial
+	button.BackgroundTransparency = 0.5
+	button.TextColor3 = Color3.new(1, 1, 1)
+	button.TextScaled = true
+	button.ZIndex = 2
+	button.Parent = SCROLLINGFRAME
+	button.MouseButton1Click:Connect(function()	
+		if animation then
+			animation:Stop()
+		end
+		for _, v in ipairs(humanoid:GetPlayingAnimationTracks()) do
+			v:Stop()
+		end
+		local emotea = Instance.new("Animation")
+		emotea.AnimationId = "rbxassetid://"..emote.id
+		animation = humanoid:LoadAnimation(emotea)
+		animation:Play()
+		isplayingemote = true
+		closegui()
+	end)
+end
 
 function changeemotewheel()
-	game.Players.LocalPlayer.Character:FindFirstChild("Animate"):FindFirstChildWhichIsA("BindableFunction").Name = randomString()
+	game.Players.LocalPlayer.Character:FindFirstChild("Animate"):FindFirstChild("PlayEmote").Name = randomString()
+	task.wait(.5)
 	EMOTEPARENT.Parent.Parent.ErrorMessage:Destroy()
 	BACKUP.Name = randomString()
 	BACKUP.Parent = game:GetService("CoreGui")
@@ -189,10 +189,13 @@ function changeemotewheel()
 		createEmoteButton(emote)
 	end
 end
-
-game:GetService("Players").LocalPlayer.CharacterAdded:Connect(function()
-	changeemotewheel()
-	humanoid = game:GetService("Players").LocalPlayer:WatiForChild("Humanoid")
+changeemotewheel()
+game:GetService("Players").LocalPlayer.CharacterAdded:Connect(function(character)
+	if character:WaitForChild("Animate") then
+		EMOTEPARENT = game:GetService("CoreGui").RobloxGui:WaitForChild("EmotesMenu"):WaitForChild("Main"):WaitForChild("EmotesWheel")
+		changeemotewheel()
+		humanoid = character:FindFirstChild("Humanoid")
+	end
 end)
 
 task.spawn(function()
