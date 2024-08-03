@@ -93,7 +93,7 @@ function changeemotewheel()
 	SCROLLINGFRAME.Position = UDim2.new(0,0,0.06,0)
 	SCROLLINGFRAME.BackgroundColor3 = Color3.fromRGB(40,40,40)
 	SCROLLINGFRAME.BorderSizePixel = 0
-	SCROLLINGFRAME.CanvasSize = UDim2.new(0, 0, 4, 0)
+	SCROLLINGFRAME.CanvasSize = UDim2.new(0, 0, 0, 0)
 	SCROLLINGFRAME.Parent = MAIN
 	GUIENABLED = false
 	JUSTCLICKEDEXIT = false
@@ -134,6 +134,7 @@ function changeemotewheel()
 	for _, emote in pairs(emotes) do
 		createEmoteButton(emote)
 	end
+	SCROLLINGFRAME.CanvasSize = UDim2.new(0, 0, 0, UIGRID.AbsoluteContentSize.Y)
 end
 changeemotewheel()
 game:GetService("Players").LocalPlayer.CharacterAdded:Connect(function(character)
