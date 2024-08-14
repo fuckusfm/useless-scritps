@@ -35,6 +35,7 @@ function createEmoteButton(emote)
 	button.Image = emote.thumbnail
 	button.BackgroundTransparency = 0.5
 	button.ZIndex = 2
+	button.Name = emote.name -- For default sorting yes
 	button.Parent = SCROLLINGFRAME
 	button.MouseButton1Click:Connect(function()	
 		if animation then
@@ -49,6 +50,13 @@ function createEmoteButton(emote)
 		animation:Play()
 		isplayingemote = true
 		closegui()
+	end)
+	button.MouseEnter:Connect(function()
+		HOVERBACKGROUND.Visible = true
+		TEXT2.Text = button.Name
+	end)
+	button.MouseLeave:Connect(function()
+		HOVERBACKGROUND.Visible = false
 	end)
 end
 
@@ -77,6 +85,16 @@ function changeemotewheel()
 	PADDINGUI.PaddingRight = UDim.new(0,5)
 	PADDINGUI.PaddingBottom = UDim.new(0,5)
 	PADDINGUI.Parent = MAIN
+	HOVERBACKGROUND = Instance.new("Frame")
+	HOVERBACKGROUND.Size = UDim2.new(1,0, 0.1, 0)
+	HOVERBACKGROUND.Position = UDim2.new(0,0,1.05,0)
+	HOVERBACKGROUND.BackgroundColor3 = Color3.fromRGB(25,25,25)
+	HOVERBACKGROUND.ZIndex = 2
+	HOVERBACKGROUND.Visible = false
+	HOVERBACKGROUND.Parent = MAIN
+	ROUNDUI2 = Instance.new("UICorner")
+	ROUNDUI2.CornerRadius = UDim.new(0.02,0)
+	ROUNDUI2.Parent = HOVERBACKGROUND
 	TEXT = Instance.new("TextLabel")
 	TEXT.Text = "Emotes"
 	TEXT.Font = Enum.Font.Arial
@@ -87,6 +105,16 @@ function changeemotewheel()
 	TEXT.ZIndex = 2
 	TEXT.Size = UDim2.new(0.2,0,0.05,0)
 	TEXT.Parent = MAIN
+	TEXT2 = Instance.new("TextLabel")
+	TEXT2.Text = ""
+	TEXT2.Font = Enum.Font.Arial
+	TEXT2.BackgroundTransparency = 1
+	TEXT2.TextColor3 = Color3.new(1,1,1)
+	TEXT2.TextScaled = true
+	TEXT2.TextXAlignment = Enum.TextXAlignment.Left
+	TEXT2.ZIndex = 2
+	TEXT2.Size = UDim2.new(1,0,1,0)
+	TEXT2.Parent = HOVERBACKGROUND
 	SCROLLINGFRAME = Instance.new("ScrollingFrame")
 	SCROLLINGFRAME.ZIndex = 2
 	SCROLLINGFRAME.Size = UDim2.new(1,0,0.94,0)
